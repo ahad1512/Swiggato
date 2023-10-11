@@ -1,20 +1,19 @@
 package com.example.Swiggato.service;
 
-import com.example.Swiggato.dto.request.FoodRequest;
+import com.example.Swiggato.dto.request.MenuRequest;
 import com.example.Swiggato.dto.request.RestaurantRequest;
-import com.example.Swiggato.dto.response.FoodResponse;
+import com.example.Swiggato.dto.response.MenuResponse;
 import com.example.Swiggato.dto.response.RestaurantResponse;
 import com.example.Swiggato.exceptions.RestaurantNotFoundException;
-import com.example.Swiggato.model.FoodItem;
+import com.example.Swiggato.model.MenuItem;
 import com.example.Swiggato.model.Restaurant;
 import com.example.Swiggato.repository.RestaurantRepository;
-import com.example.Swiggato.transformer.FoodItemTransformer;
+import com.example.Swiggato.transformer.MenuItemTransformer;
 import com.example.Swiggato.transformer.RestaurantTransformer;
 import com.example.Swiggato.utils.ValidationUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RestaurantService {
@@ -50,25 +49,25 @@ public class RestaurantService {
         return "Restaurant is closed";
     }
 
-    public RestaurantResponse addFoodItemToRestaurant(FoodRequest foodRequest) {
+    public RestaurantResponse addMenuItemToRestaurant(MenuRequest menuRequest) {
         //verify id is correct or not
-        if (!validationUtils.validateRestaurantId(foodRequest.getRestaurantId())) {
+        if (!validationUtils.validateRestaurantId(menuRequest.getRestaurantId())) {
             throw new RestaurantNotFoundException("Restaurant doesn't exist!!");
         }
-        Restaurant restaurant = restaurantRepository.findById(foodRequest.getRestaurantId()).get();
-        //foodRequest -->> foodItem , Dto -->> Model
-        FoodItem foodItem = FoodItemTransformer.FoodRequestToFoodItem(foodRequest);
-        foodItem.setRestaurant(restaurant);
+        Restaurant restaurant = restaurantRepository.findById(menuRequest.getRestaurantId()).get();
+        //menuRequest -->> menuItem , Dto -->> Model
+        MenuItem menuItem = MenuItemTransformer.MenuRequestToMenuItem(menuRequest);
+        menuItem.setRestaurant(restaurant);
 
         // Add food to restaurant
-        restaurant.getAvailableFoodItems().add(foodItem);
+        restaurant.getAvailableMenuItems().add(menuItem);
         //save restaurant and food
         Restaurant savedRestaurant = restaurantRepository.save(restaurant);
         //prepare response
         return RestaurantTransformer.RestaurantToRestaurantResponse(savedRestaurant);
     }
 
-    public List<FoodResponse> getMenuOfRestaurant(int id) {
+    public List<MenuResponse> getMenuOfRestaurant(int id) {
         //validation check
         if(!validationUtils.validateRestaurantId(id)){
             throw new RestaurantNotFoundException("Restaurant doesn't exist");

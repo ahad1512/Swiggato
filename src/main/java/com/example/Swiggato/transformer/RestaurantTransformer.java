@@ -1,7 +1,7 @@
 package com.example.Swiggato.transformer;
 
 import com.example.Swiggato.dto.request.RestaurantRequest;
-import com.example.Swiggato.dto.response.FoodResponse;
+import com.example.Swiggato.dto.response.MenuResponse;
 import com.example.Swiggato.dto.response.RestaurantResponse;
 import com.example.Swiggato.model.Restaurant;
 
@@ -19,15 +19,15 @@ public class RestaurantTransformer {
                 .restaurantCategory(restaurantRequest.getRestaurantCategory())
                 .opened(true)
                 .orders(new ArrayList<>())
-                .availableFoodItems(new ArrayList<>())
+                .availableMenuItems(new ArrayList<>())
                 .build();
     }
     public static RestaurantResponse RestaurantToRestaurantResponse (Restaurant restaurant){
-//        List<FoodResponse> menu = restaurant.getAvailableFoodItems()
+//        List<MenuResponse> menu = restaurant.getAvailableMenuItems()
 //                .stream()
-//                .map(foodItem -> FoodItemTransformer.FoodItemToFoodResponse(foodItem))
+//                .map(foodItem -> MenuItemTransformer.FoodItemToFoodResponse(foodItem))
 //                .collect(Collectors.toList());
-        List<FoodResponse> menu = getMenuOfRestaurant(restaurant);
+        List<MenuResponse> menu = getMenuOfRestaurant(restaurant);
 
        return RestaurantResponse.builder()
                .name(restaurant.getName())
@@ -37,10 +37,10 @@ public class RestaurantTransformer {
                .menu(menu)
                .build();
     }
-    public static List<FoodResponse> getMenuOfRestaurant(Restaurant restaurant){
-        List<FoodResponse> menu = restaurant.getAvailableFoodItems()
+    public static List<MenuResponse> getMenuOfRestaurant(Restaurant restaurant){
+        List<MenuResponse> menu = restaurant.getAvailableMenuItems()
                 .stream()
-                .map(foodItem -> FoodItemTransformer.FoodItemToFoodResponse(foodItem))
+                .map(menuItem -> MenuItemTransformer.MenuItemToMenuResponse(menuItem))
                 .collect(Collectors.toList());
 
         return menu;
