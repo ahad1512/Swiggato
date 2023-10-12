@@ -58,18 +58,18 @@ public class CartService {
             throw new MenuItemNotFoundException("Given dish is out of stock for now!!!");
         }
         //prepare food item
-        FoodItem foodItem = FoodItemTransformer.PrepareFoodItem(menuItem,customer.getCart(),foodRequest);
+        FoodItem foodItem = FoodItemTransformer.PrepareFoodItem(menuItem,foodRequest);
 
         Cart cart = customer.getCart(); // get cart
         FoodItem savedFood = foodRepository.save(foodItem);
         // calculate cart total
         double cartTotal =0 ;
+        cart.getFoodItems().add(savedFood);
         for (FoodItem food : cart.getFoodItems()){
             cartTotal += food.getRequiredQuantity()*food.getMenuItem().getPrice();
         }
-        //prepare cart
+        savedFood.setCart(cart);
         cart.setCartTotal(cartTotal);
-        cart.getFoodItems().add(savedFood);
         menuItem.getFoodItems().add(savedFood);
 
         //save cart and menu
