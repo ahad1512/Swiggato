@@ -18,21 +18,20 @@ public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
     public CustomerResponse addCustomer(CustomerRequest customerRequest) {
-     //dto --> model
+        //dto --> model
         Customer customer = CustomerTransformer.CustomerRequestToCustomer(customerRequest);
 
-     //allocate a cart
+        //allocate a cart
         Cart cart =Cart.builder()
                 .cartTotal(0)
                 .customer(customer)
                 .build();
 
-        customer.setCart(cart);
+         customer.setCart(cart);
 
         //Save both customer and cart
-    Customer savedCustomer = customerRepository.save(customer);
-
-    // model --> dto
+        Customer savedCustomer = customerRepository.save(customer);
+        //model -->> dto
         return CustomerTransformer.CustomerToCustomerResponse(savedCustomer);
     }
 

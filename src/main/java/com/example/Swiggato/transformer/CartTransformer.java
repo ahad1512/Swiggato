@@ -12,9 +12,14 @@ import java.util.List;
 public class CartTransformer {
 
     public static CartResponse CartToCartResponse(Cart cart){
+        List<FoodResponse> foodResponseList = new ArrayList<>();
+
+        for (FoodItem foodItem : cart.getFoodItems()) {
+            foodResponseList.add(FoodItemTransformer.FoodItemToFoodResponse(foodItem));
+        }
         return CartResponse.builder()
                 .cartTotal(cart.getCartTotal())
-                .foodItems(new ArrayList<>())
+                .foodItems(foodResponseList)
                 .build();
     }
     public static CartStatusResponse prepareCartStatusResponse (Cart cart){
