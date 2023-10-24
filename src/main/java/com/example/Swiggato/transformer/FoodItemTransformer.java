@@ -6,6 +6,9 @@ import com.example.Swiggato.model.Cart;
 import com.example.Swiggato.model.FoodItem;
 import com.example.Swiggato.model.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FoodItemTransformer {
 
     public static FoodItem PrepareFoodItem (MenuItem menuItem, FoodRequest foodRequest){
@@ -24,5 +27,12 @@ public class FoodItemTransformer {
                 .quantityAdded(foodItem.getRequiredQuantity())
                 .restaurantName(foodItem.getMenuItem().getRestaurant().getName())
                 .build();
+    }
+    public static List<FoodResponse> getFoodItemListResponse (List<FoodItem> foodItems){
+        List<FoodResponse> foodResponseList = new ArrayList<>();
+        for (FoodItem foodItem : foodItems){
+            foodResponseList.add(FoodItemTransformer.FoodItemToFoodResponse(foodItem));
+        }
+        return foodResponseList;
     }
 }
