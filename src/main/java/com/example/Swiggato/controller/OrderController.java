@@ -2,7 +2,7 @@ package com.example.Swiggato.controller;
 
 
 import com.example.Swiggato.dto.response.OrderResponse;
-import com.example.Swiggato.service.OrderService;
+import com.example.Swiggato.service.Impl.OrderServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/order")
 public class OrderController {
 
-    final OrderService orderService;
+    final OrderServiceImpl orderServiceImpl;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    public OrderController(OrderServiceImpl orderServiceImpl) {
+        this.orderServiceImpl = orderServiceImpl;
     }
 
     @PostMapping("place/mobile/{mobile}")
     public ResponseEntity placeOrder(@PathVariable("mobile") String customerMobileNo){
         try {
-            OrderResponse orderResponse = orderService.placeOrder(customerMobileNo);
+            OrderResponse orderResponse = orderServiceImpl.placeOrder(customerMobileNo);
             return new ResponseEntity(orderResponse, HttpStatus.CREATED);
         }
         catch (Exception e){
