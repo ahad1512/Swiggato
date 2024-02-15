@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
         //Save both customer and cart
         Customer savedCustomer = customerRepository.save(customer);
         //model -->> dto
-        return CustomerTransformer.CustomerToCustomerResponse(savedCustomer);
+        return CustomerTransformer.newCustomerResponse(savedCustomer);
     }
 
     @Override

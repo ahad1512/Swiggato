@@ -37,4 +37,10 @@ public class CartTransformer {
                 .foodList(foodResponseList)
                 .build();
     }
+    public static CartResponse newCartResponse(Cart cart){
+        return CartResponse.builder()
+                .cartTotal(0)
+                .foodItems(new ArrayList<>())
+                .build();
+    }
 }

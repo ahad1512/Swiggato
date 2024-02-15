@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customer")
 public class CustomerController {
 
+    final CustomerServiceImpl customerServiceImpl;
     @Autowired
-    CustomerServiceImpl customerServiceImpl;
+    public CustomerController(CustomerServiceImpl customerServiceImpl) {
+        this.customerServiceImpl = customerServiceImpl;
+    }
 
     @PostMapping("/add")
     public ResponseEntity addCustomer(@RequestBody CustomerRequest customerRequest){
